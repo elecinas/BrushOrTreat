@@ -64,6 +64,10 @@ let phantom;
 
 //variables fantasma exaltado
 let eyeCross;
+let phantomFace;
+let crossedFace;
+let tooth;
+let phantomScream;
 
 // Crear y centrar canvas dentro de #sketch-holder
 function createResponsiveCanvas() {
@@ -89,12 +93,15 @@ function scaleY(y) {
 function preload() {
   faceMesh = ml5.faceMesh(options);
   terrorFont = loadFont("fonts/HelpMe.ttf");
-  bebasFont = loadFont("fonts/BebasNeue-Regular.ttf");
   tensionSound = loadSound("sounds/suspense.mp3");
   horrorSound = loadSound("sounds/scary.mp3");
   laughSound = loadSound("sounds/demonic-laughter.mp3");
   phantom = loadImage("img/phantom.png");
   eyeCross = loadImage("img/ojo_cruz.png");
+  phantomFace = loadImage("img/cara_phantom.png");
+  crossedFace = loadImage("img/cara_cruces.png");
+  tooth = loadImage("img/muela.png");
+  phantomScream = loadImage("img/phantom_grita.png");
 }
 
 function setup() {
@@ -105,7 +112,7 @@ function setup() {
   video.hide();
   faceMesh.detectStart(video, gotFaces);
 
-  tensionSound.setVolume(0.006);
+  tensionSound.setVolume(0.008);
 }
 
 function draw() {
@@ -122,7 +129,7 @@ function draw() {
     horrorSound.loop();
     laughSound.loop();
     drawCrazyShapes();
-    drawText(shouting, width - 100, height - 100, 200, 32, true);
+    drawText(shouting, width - 100, height - 100, 200, 25, true);
   } else {
     nocturnFilter();
     horrorSound.stop();
@@ -133,6 +140,31 @@ function draw() {
 }
 
 function drawCrazyShapes() {
+  let thr = 2;
+  tint(10, 30, 80, 250);
+  image(
+    phantomFace,
+    random(20 - thr, 20 + thr),
+    random(20 - thr, 20 + thr),
+    200,
+    200
+  );
+  image(
+    crossedFace,
+    random(width / 2 + 130 - thr, width / 2 + 130 + thr),
+    random(100 - thr, 100 + thr),
+    180,
+    180
+  );
+  image(
+    tooth,
+    random(40 - thr, 40 + thr),
+    random(height / 2 + 100 - thr, height / 2 + 100 + thr),
+    120,
+    120
+  );
+  noTint();
+
   if (faces.length > 0) {
     const f = faces[0];
 
@@ -146,19 +178,33 @@ function drawCrazyShapes() {
         scaleX(f.rightEye.centerX),
         scaleY(f.rightEye.centerY)
       );
-      let threshold = 2;
-      let leftEyeWidth = random(scaleX(f.leftEye.width * 2) - threshold, scaleX(f.leftEye.width * 2) + threshold);
-      let leftEyeXPos = random(leftEye.x - leftEyeWidth / 2 - threshold, leftEye.x - leftEyeWidth / 2 + threshold);
-      let leftEyeYPos = random(leftEye.y - leftEyeWidth / 2 - threshold, leftEye.y - leftEyeWidth / 2 + threshold);
-      let rightEyeWidth = random(scaleX(f.rightEye.width * 2) - threshold, scaleX(f.rightEye.width * 2) + threshold);
-      let rightEyeXPos = random(rightEye.x - rightEyeWidth / 2 - threshold, rightEye.x - rightEyeWidth / 2 + threshold);
-      let rightEyeYpos = random(rightEye.y - rightEyeWidth / 2 - threshold, rightEye.y - rightEyeWidth / 2 + threshold);
+      let leftEyeWidth = random(
+        scaleX(f.leftEye.width * 2) - thr,
+        scaleX(f.leftEye.width * 2) + thr
+      );
+      let leftEyeXPos = random(
+        leftEye.x - leftEyeWidth / 2 - thr,
+        leftEye.x - leftEyeWidth / 2 + thr
+      );
+      let leftEyeYPos = random(
+        leftEye.y - leftEyeWidth / 2 - thr,
+        leftEye.y - leftEyeWidth / 2 + thr
+      );
+      let rightEyeWidth = random(
+        scaleX(f.rightEye.width * 2) - thr,
+        scaleX(f.rightEye.width * 2) + thr
+      );
+      let rightEyeXPos = random(
+        rightEye.x - rightEyeWidth / 2 - thr,
+        rightEye.x - rightEyeWidth / 2 + thr
+      );
+      let rightEyeYpos = random(
+        rightEye.y - rightEyeWidth / 2 - thr,
+        rightEye.y - rightEyeWidth / 2 + thr
+      );
 
-
-      image(eyeCross, leftEyeXPos, leftEyeYPos, leftEyeWidth , leftEyeWidth );
-      image(eyeCross, rightEyeXPos, rightEyeYpos, rightEyeWidth , rightEyeWidth );
-
-      
+      image(eyeCross, leftEyeXPos, leftEyeYPos, leftEyeWidth, leftEyeWidth);
+      image(eyeCross, rightEyeXPos, rightEyeYpos, rightEyeWidth, rightEyeWidth);
     }
   }
 }
@@ -181,7 +227,7 @@ function drawText(
 
   if (timer % phraseInterval === 0 && timer !== lastPhraseChange) {
     lastPhraseChange = timer;
-    phraseIndex < textArray.length ? phraseIndex++ : (phraseIndex = 0);
+    phraseIndex < textArray.length - 1 ? phraseIndex++ : (phraseIndex = 0);
     randomPosition && (posTxtRandomX = random(100, posX));
     randomPosition && (posTxtRandomY = random(100, posY));
   }
@@ -190,11 +236,22 @@ function drawText(
   fill(255);
   noStroke();
   textAlign(CENTER, CENTER);
+
   if (randomPosition) {
+    imageMode(CENTER);
+    let imgSize = random(txtSize * 10 - 3 + 100, txtSize * 10 + 3 + 100);
+    image(
+      phantomScream,
+      posTxtRandomX + shakeX,
+      posTxtRandomY + shakeY,
+      imgSize,
+      imgSize
+    );
+    imageMode(CORNER);
     textSize(random(txtSize - 3, txtSize + 3));
     text(
       textArray[phraseIndex],
-      posTxtRandomX + shakeX,
+      posTxtRandomX + shakeX - imgSize / 4,
       posTxtRandomY + shakeY,
       paragraphWidth
     );
@@ -216,7 +273,7 @@ function drawPhantom() {
   image(phantom, posX, posY, size, size);
   imageMode(CORNER);
 
-  drawText(threats, posX, posY, 100);
+  drawText(threats, posX, posY, 100, 16);
 
   offX += speed;
   offY += speed;
