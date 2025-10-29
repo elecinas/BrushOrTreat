@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Laboratori HealthySmile — Cepíllate jugando</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/addons/p5.sound.min.js"></script>
+  <script src="https://unpkg.com/ml5@1/dist/ml5.js"></script>
+
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.2/p5.min.js" defer></script> -->
+  <link rel="stylesheet" href="style.css">
+  <script src="sketch.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="brand" aria-label="Cabecera HealthySmile">
+      <!-- LOGOTIPO inline (cámbialo por tu imagen si quieres) -->
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="white"/>
+        <path d="M18 30c6 12 22 12 28 0" stroke="#2bb6a6" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="3" fill="#2bb6a6"/>
+        <circle cx="40" cy="24" r="3" fill="#2bb6a6"/>
+      </svg>
+      <div>
+        <h1>Laboratori HealthySmile</h1>
+        <small>App para aprender a cepillarse los dientes</small>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="layout">
+      <section class="card sketch-wrap" aria-labelledby="juego-title">
+        <h2 id="juego-title" style="margin:8px 10px 14px">¡Limpia todos los dientes!</h2>
+        <div id="sketch-holder" class="card" aria-live="polite"><!-- aquí p5 inserta el canvas --></div>
+        <div class="panel">
+          <div class="meta">
+            <button id="btn-start">Iniciar</button>
+            <button id="btn-reset" class="secondary">Reiniciar</button>
+          </div>
+          <p class="footnote">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae hic voluptatum velit debitis, veritatis magni minima pariatur ut nostrum reprehenderit ab assumenda eaque qui possimus delectus optio!</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>© 2025 Laboratori HealthySmile — Proyecto educativo</footer>
+</body>
+</html>

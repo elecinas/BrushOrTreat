@@ -1,0 +1,172 @@
+:root {
+  --brand: #2bb6a6; /* turquesa HealthySmile */
+  --brand-2: #ffd166; /* acento cálido */
+  --ink: #1e293b; /* gris azulado para texto */
+  --bg: #f6f9fb; /* fondo claro */
+  --card: #ffffff; /* tarjetas */
+  --radius: 18px;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+    "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--ink);
+  background: var(--bg);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(90deg, var(--brand), #35d1c0);
+  color: white;
+  padding: 16px 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.brand svg {
+  width: 44px;
+  height: 44px;
+}
+
+.brand h1 {
+  font-size: clamp(18px, 2.6vw, 28px);
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.brand small {
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+main {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* @media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+} */
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.sketch-wrap {
+  padding: 16px;
+}
+
+/* CENTRADO del canvas p5: */
+#sketch-holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 340px;
+}
+
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+}
+
+.panel {
+  padding: 18px 18px 22px;
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: clamp(18px, 2.2vw, 22px);
+}
+
+.meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 10px 0 14px;
+}
+
+.badge {
+  background: #eef8f7;
+  color: #0e7666;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  border: 1px solid #d7f0ec;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 0;
+  background: var(--brand);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button.secondary {
+  background: #eaf7f6;
+  color: #0f766e;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.footnote {
+  font-size: 13px;
+  color: #475569;
+  margin-top: 8px;
+}
+
+footer {
+  text-align: center;
+  color: #64748b;
+  padding: 32px 16px;
+}

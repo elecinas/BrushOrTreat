@@ -1,0 +1,21 @@
+# Node.js
+node_modules/
+
+# Dependencias de React/Vite/Next
+dist/
+build/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Entornos
+.env
+.env.local
+
+# Logs
+*.log
+
+# IDEs y editores
+.vscode/
+.idea/
