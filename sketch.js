@@ -47,10 +47,20 @@ let timer = 0;
 let lastTimer = -1;
 let lastInterval = 0;
 let lastPhraseChange = 0;
-let phraseInterval = 5; //5sg para cambiar frase
+let phraseInterval = 3; //3sg para cambiar frase
+let posTxtRandomX = 300;
+let posTxtRandomY = 300;
 
 let changePhrase = false;
 let phraseIndex = 0;
+
+// variables presencia oscura
+let offX = 0;
+let offY = 100;
+let offSize = 200;
+let offColor = 300;
+let speed = 0.01;
+let phantom;
 
 // Crear y centrar canvas dentro de #sketch-holder
 function createResponsiveCanvas() {
@@ -80,6 +90,7 @@ function preload() {
   tensionSound = loadSound("sounds/suspense.mp3");
   horrorSound = loadSound("sounds/scary.mp3");
   laughSound = loadSound("sounds/demonic-laughter.mp3");
+  phantom = loadImage("img/phantom.png");
 }
 
 function setup() {
@@ -90,7 +101,7 @@ function setup() {
   video.hide();
   faceMesh.detectStart(video, gotFaces);
 
-  tensionSound.setVolume(0.002);
+  tensionSound.setVolume(0.006);
 }
 
 function draw() {
@@ -108,14 +119,59 @@ function draw() {
     tensionSound.stop();
     horrorSound.loop();
     laughSound.loop();
+    drawText(shouting, width - 100, height - 100, 200, 19, true);
   } else {
     nocturnFilter();
     horrorSound.stop();
     laughSound.stop();
     tensionSound.loop();
+    drawPhantom();
   }
+}
 
-  drawText();
+function drawText(
+  textArray,
+  posX = 0,
+  posY = 0,
+  paragraphWidth = width,
+  txtSize = 14,
+  randomPosition = false
+) {
+  if (timer % phraseInterval === 0 && timer !== lastPhraseChange) {
+    lastPhraseChange = timer;
+    phraseIndex < textArray.length ? phraseIndex++ : (phraseIndex = 0);
+    randomPosition && (posTxtRandomX = random(100, posX));
+    randomPosition && (posTxtRandomY = random(100, posY));
+  }
+  textFont(terrorFont);
+  textSize(txtSize);
+  fill(255);
+  noStroke();
+  textAlign(CENTER, CENTER);
+  randomPosition
+    ? text(textArray[phraseIndex], posTxtRandomX, posTxtRandomY, paragraphWidth)
+    : text(
+        textArray[phraseIndex],
+        posX - paragraphWidth / 2,
+        posY,
+        paragraphWidth
+      );
+}
+
+function drawPhantom() {
+  let size = map(noise(offSize), 0, 1, 305, 455);
+  let posX = map(noise(offX), 0, 1, -5, width - size + 5);
+  let posY = map(noise(offY), 0, 1, -5, height - size + 5);
+  imageMode(CENTER);
+  image(phantom, posX, posY, size, size);
+  imageMode(CORNER);
+
+  drawText(threats, posX, posY, 100);
+
+  offX += speed;
+  offY += speed;
+  offSize += speed * 2;
+  offColor += speed;
 }
 
 function updateTimer() {
@@ -123,31 +179,6 @@ function updateTimer() {
     lastTimer = timer;
     timer++;
     lastInterval = millis();
-  }
-}
-
-function drawText() {
-
-  if (timer % phraseInterval === 0 && timer !== lastPhraseChange) {
-    lastPhraseChange = timer;
-    phraseIndex <= shouting.length ? phraseIndex++ : phraseIndex = 0;
-  }
-    
-
-  if (mouthOpen) {
-    textFont(terrorFont);
-    textSize(14);
-    fill(255);
-    noStroke();
-    textAlign(LEFT, BOTTOM);
-    text(shouting[phraseIndex], 10, height - 20);
-  } else {
-    textFont(terrorFont);
-    textSize(14);
-    fill(255);
-    noStroke();
-    textAlign(LEFT, BOTTOM);
-    text(threats[phraseIndex], 10, height - 20);
   }
 }
 
