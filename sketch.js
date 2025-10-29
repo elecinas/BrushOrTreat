@@ -9,6 +9,49 @@ let faces = [];
 let options = { maxFaces: 1, refineLandmarks: false, flipped: true };
 let mouthOpen = false;
 
+//variables de contenido
+const threats = [
+  "Otra noche… y esos dientes siguen pidiendo auxilio",
+  "Cepíllate… o te arranco la sonrisa yo mismo",
+  "Tienes más placa que un cementerio…",
+  "¿No hueles eso?... Son tus encías muriendo",
+  "Qué bonitos dientes… sería una pena perderlos",
+  "El hilo dental no te salvará… pero al menos lo intentará",
+  "Lávate los dientes… o te los lavo con mis garras",
+  "¿Sabes qué colecciono?... Sonrisas descuidadas",
+  "Sigue sin cepillarte… necesito más material para mi collar",
+  "Duermes con la boca abierta… y yo miro dentro",
+  "No es aliento… son tus dientes pudriéndose",
+];
+const shouting = [
+  "¡No pares o te buscaré en sueños!",
+  "¡Sigue! ¡Que no se escape ni una muela!",
+  "¡Cepilla más fuerte o vendré por tus dientes!",
+  "¡No te detengas! ¡Maldita sea!",
+  "¡Como pares me acerco al espejo!",
+  "¡Más, más! ¡Que brille hasta la raíz!",
+  "¡No pares! ¡Me gusta el sabor del sarro!",
+  "¡Cepilla otra vez esa esquina, ahora mismo!",
+  "¡No lo dejes! ¡Tengo paciencia… por ahora!",
+  "¡Más espuma! ¡Que tiemble tu dentista!",
+  "¡Sigue! ¡El brillo me vuelve loco!",
+];
+
+//variables de sonido
+let tensionSound;
+let horrorSound;
+let laughSound;
+
+//variables de tiempo
+let timer = 0;
+let lastTimer = -1;
+let lastInterval = 0;
+let lastPhraseChange = 0;
+let phraseInterval = 5; //5sg para cambiar frase
+
+let changePhrase = false;
+let phraseIndex = 0;
+
 // Crear y centrar canvas dentro de #sketch-holder
 function createResponsiveCanvas() {
   const holder = document.getElementById("sketch-holder");
@@ -33,10 +76,10 @@ function scaleY(y) {
 function preload() {
   faceMesh = ml5.faceMesh(options);
   terrorFont = loadFont("fonts/HelpMe.ttf");
-
-  // fonts[0] = loadFont("fonts/BebasNeue-Regular.ttf");
-  // fonts[1] = loadFont("fonts/Kanit-Black.ttf");
-  // fonts[2] = loadFont("fonts/Roboto-Regular.ttf");
+  bebasFont = loadFont("fonts/BebasNeue-Regular.ttf");
+  tensionSound = loadSound("sounds/suspense.mp3");
+  horrorSound = loadSound("sounds/scary.mp3");
+  laughSound = loadSound("sounds/demonic-laughter.mp3");
 }
 
 function setup() {
@@ -46,33 +89,70 @@ function setup() {
   video.size(640, 480);
   video.hide();
   faceMesh.detectStart(video, gotFaces);
+
+  tensionSound.setVolume(0.002);
 }
 
 function draw() {
   frameRate(24);
   background(220);
+  updateTimer();
   mouthOpen = isMouthOpen();
-  
+
   image(video, 0, 0, width, height);
-  
+
   // drawEyes();
-  mouthOpen  ? flickeringLightFilter() : nocturnFilter();
+
+  if (mouthOpen) {
+    flickeringLightFilter();
+    tensionSound.stop();
+    horrorSound.loop();
+    laughSound.loop();
+  } else {
+    nocturnFilter();
+    horrorSound.stop();
+    laughSound.stop();
+    tensionSound.loop();
+  }
 
   drawText();
 }
 
-function drawText() {
-  // textFont(terrorFont);
-  textSize(14);
-  fill(255);
-  noStroke();
-  textAlign(LEFT, BOTTOM);
-  text("Sun and Moon icons designed by Freepik", 10, height - 10);
+function updateTimer() {
+  if (millis() - lastInterval >= 1000) {
+    lastTimer = timer;
+    timer++;
+    lastInterval = millis();
+  }
 }
 
+function drawText() {
 
-function nocturnFilter(){
-loadPixels();
+  if (timer % phraseInterval === 0 && timer !== lastPhraseChange) {
+    lastPhraseChange = timer;
+    phraseIndex <= shouting.length ? phraseIndex++ : phraseIndex = 0;
+  }
+    
+
+  if (mouthOpen) {
+    textFont(terrorFont);
+    textSize(14);
+    fill(255);
+    noStroke();
+    textAlign(LEFT, BOTTOM);
+    text(shouting[phraseIndex], 10, height - 20);
+  } else {
+    textFont(terrorFont);
+    textSize(14);
+    fill(255);
+    noStroke();
+    textAlign(LEFT, BOTTOM);
+    text(threats[phraseIndex], 10, height - 20);
+  }
+}
+
+function nocturnFilter() {
+  loadPixels();
   for (let i = 0; i < pixels.length; i += 4) {
     let r = pixels[i];
     let g = pixels[i + 1];
@@ -89,7 +169,7 @@ loadPixels();
   blendMode(BLEND);
 }
 
-function flickeringLightFilter(){
+function flickeringLightFilter() {
   // 1️⃣ Filtro gris + ruido en una sola lectura
   loadPixels();
   for (let i = 0; i < pixels.length; i += 4) {
@@ -103,7 +183,7 @@ function flickeringLightFilter(){
   }
   updatePixels();
 
-  // 2️⃣ Filtro rojo 
+  // 2️⃣ Filtro rojo
   blendMode(MULTIPLY);
   noStroke();
   fill(0, 0, 120, random(120, 180)); // parpadeo leve
@@ -117,9 +197,15 @@ function drawEyes() {
 
     if (f.leftEye && f.rightEye) {
       // Escalar coordenadas al tamaño del canvas
-      let leftEye = createVector(scaleX(f.leftEye.centerX), scaleY(f.leftEye.centerY));
-      let rightEye = createVector(scaleX(f.rightEye.centerX), scaleY(f.rightEye.centerY));
-      let leftEyeWidth= scaleX(f.leftEye.width);
+      let leftEye = createVector(
+        scaleX(f.leftEye.centerX),
+        scaleY(f.leftEye.centerY)
+      );
+      let rightEye = createVector(
+        scaleX(f.rightEye.centerX),
+        scaleY(f.rightEye.centerY)
+      );
+      let leftEyeWidth = scaleX(f.leftEye.width);
       let rightEyeWidth = scaleX(f.rightEye.width);
 
       // Dibujar círculos
@@ -127,16 +213,19 @@ function drawEyes() {
       stroke(0, 255, 0);
       strokeWeight(2);
       ellipse(leftEye.x, leftEye.y, leftEyeWidth * 1.5, leftEyeWidth * 1.5); // ojo izquierdo
-      ellipse(rightEye.x, rightEye.y, rightEyeWidth  * 1.5, rightEyeWidth  * 1.5); // ojo derecho
+      ellipse(rightEye.x, rightEye.y, rightEyeWidth * 1.5, rightEyeWidth * 1.5); // ojo derecho
     }
   }
 }
 
-function isMouthOpen(){
+function isMouthOpen() {
   if (faces.length > 0 && faces[0].lips) {
     let lips = faces[0].lips;
     let topLeftLip = createVector(scaleX(lips.x), scaleY(lips.y));
-    let bottomRightLip = createVector(scaleX(lips.x + lips.width), scaleY(lips.y + lips.height));
+    let bottomRightLip = createVector(
+      scaleX(lips.x + lips.width),
+      scaleY(lips.y + lips.height)
+    );
     // let centerLip = createVector(scaleX(lips.centerX), scaleY(lips.centerY));
     // noFill();
     // stroke(0, 255, 0);
@@ -151,16 +240,16 @@ function isMouthOpen(){
       bottomRightLip.x,
       bottomRightLip.y
     );
-    
-    if (lipDistance > 100) {
+
+    if (lipDistance > 90) {
       return true;
-    } else if(lipDistance < 95) {
+    } else if (lipDistance < 85) {
       return false;
     }
   }
 }
 
-function trigger(message){
+function trigger(message) {
   console.log(message, ":D");
 }
 
