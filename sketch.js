@@ -62,6 +62,9 @@ let offColor = 300;
 let speed = 0.01;
 let phantom;
 
+//variables fantasma exaltado
+let eyeCross;
+
 // Crear y centrar canvas dentro de #sketch-holder
 function createResponsiveCanvas() {
   const holder = document.getElementById("sketch-holder");
@@ -91,6 +94,7 @@ function preload() {
   horrorSound = loadSound("sounds/scary.mp3");
   laughSound = loadSound("sounds/demonic-laughter.mp3");
   phantom = loadImage("img/phantom.png");
+  eyeCross = loadImage("img/ojo_cruz.png");
 }
 
 function setup() {
@@ -112,20 +116,50 @@ function draw() {
 
   image(video, 0, 0, width, height);
 
-  // drawEyes();
-
   if (mouthOpen) {
     flickeringLightFilter();
     tensionSound.stop();
     horrorSound.loop();
     laughSound.loop();
-    drawText(shouting, width - 100, height - 100, 200, 19, true);
+    drawCrazyShapes();
+    drawText(shouting, width - 100, height - 100, 200, 32, true);
   } else {
     nocturnFilter();
     horrorSound.stop();
     laughSound.stop();
     tensionSound.loop();
     drawPhantom();
+  }
+}
+
+function drawCrazyShapes() {
+  if (faces.length > 0) {
+    const f = faces[0];
+
+    if (f.leftEye && f.rightEye) {
+      // Escalar coordenadas al tamaño del canvas
+      let leftEye = createVector(
+        scaleX(f.leftEye.centerX),
+        scaleY(f.leftEye.centerY)
+      );
+      let rightEye = createVector(
+        scaleX(f.rightEye.centerX),
+        scaleY(f.rightEye.centerY)
+      );
+      let threshold = 2;
+      let leftEyeWidth = random(scaleX(f.leftEye.width * 2) - threshold, scaleX(f.leftEye.width * 2) + threshold);
+      let leftEyeXPos = random(leftEye.x - leftEyeWidth / 2 - threshold, leftEye.x - leftEyeWidth / 2 + threshold);
+      let leftEyeYPos = random(leftEye.y - leftEyeWidth / 2 - threshold, leftEye.y - leftEyeWidth / 2 + threshold);
+      let rightEyeWidth = random(scaleX(f.rightEye.width * 2) - threshold, scaleX(f.rightEye.width * 2) + threshold);
+      let rightEyeXPos = random(rightEye.x - rightEyeWidth / 2 - threshold, rightEye.x - rightEyeWidth / 2 + threshold);
+      let rightEyeYpos = random(rightEye.y - rightEyeWidth / 2 - threshold, rightEye.y - rightEyeWidth / 2 + threshold);
+
+
+      image(eyeCross, leftEyeXPos, leftEyeYPos, leftEyeWidth , leftEyeWidth );
+      image(eyeCross, rightEyeXPos, rightEyeYpos, rightEyeWidth , rightEyeWidth );
+
+      
+    }
   }
 }
 
@@ -137,6 +171,14 @@ function drawText(
   txtSize = 14,
   randomPosition = false
 ) {
+  let shakeX = 0;
+  let shakeY = 0;
+
+  if (mouthOpen) {
+    shakeX = random(-3, 3);
+    shakeY = random(-2, 2);
+  }
+
   if (timer % phraseInterval === 0 && timer !== lastPhraseChange) {
     lastPhraseChange = timer;
     phraseIndex < textArray.length ? phraseIndex++ : (phraseIndex = 0);
@@ -148,14 +190,22 @@ function drawText(
   fill(255);
   noStroke();
   textAlign(CENTER, CENTER);
-  randomPosition
-    ? text(textArray[phraseIndex], posTxtRandomX, posTxtRandomY, paragraphWidth)
-    : text(
-        textArray[phraseIndex],
-        posX - paragraphWidth / 2,
-        posY,
-        paragraphWidth
-      );
+  if (randomPosition) {
+    textSize(random(txtSize - 3, txtSize + 3));
+    text(
+      textArray[phraseIndex],
+      posTxtRandomX + shakeX,
+      posTxtRandomY + shakeY,
+      paragraphWidth
+    );
+  } else {
+    text(
+      textArray[phraseIndex],
+      posX - paragraphWidth / 2,
+      posY,
+      paragraphWidth
+    );
+  }
 }
 
 function drawPhantom() {
@@ -220,33 +270,6 @@ function flickeringLightFilter() {
   fill(0, 0, 120, random(120, 180)); // parpadeo leve
   rect(0, 0, width, height);
   blendMode(BLEND);
-}
-
-function drawEyes() {
-  if (faces.length > 0) {
-    const f = faces[0];
-
-    if (f.leftEye && f.rightEye) {
-      // Escalar coordenadas al tamaño del canvas
-      let leftEye = createVector(
-        scaleX(f.leftEye.centerX),
-        scaleY(f.leftEye.centerY)
-      );
-      let rightEye = createVector(
-        scaleX(f.rightEye.centerX),
-        scaleY(f.rightEye.centerY)
-      );
-      let leftEyeWidth = scaleX(f.leftEye.width);
-      let rightEyeWidth = scaleX(f.rightEye.width);
-
-      // Dibujar círculos
-      noFill();
-      stroke(0, 255, 0);
-      strokeWeight(2);
-      ellipse(leftEye.x, leftEye.y, leftEyeWidth * 1.5, leftEyeWidth * 1.5); // ojo izquierdo
-      ellipse(rightEye.x, rightEye.y, rightEyeWidth * 1.5, rightEyeWidth * 1.5); // ojo derecho
-    }
-  }
 }
 
 function isMouthOpen() {
