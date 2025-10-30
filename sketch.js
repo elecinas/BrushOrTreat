@@ -7,7 +7,10 @@ btnStart.onclick = () => {
   isProgramRunning = !isProgramRunning;
   btnStart.textContent = isProgramRunning ? "Parar" : "Iniciar";
   stopAudio();
-}
+};
+
+//Sistema de partículas
+let particleSystem;
 
 //ml5 variables
 let faceMesh;
@@ -114,16 +117,18 @@ function preload() {
 function setup() {
   createResponsiveCanvas();
 
+  particleSystem = new ParticleSystem();
+
   video = createCapture(VIDEO, { flipped: true });
   video.size(640, 480);
   video.hide();
   faceMesh.detectStart(video, gotFaces);
 
-  tensionSound.setVolume(0.008);//el modo oscuro debe ser sutil
+  tensionSound.setVolume(0.008); //el modo oscuro debe ser sutil
 }
 
 function draw() {
-  frameRate(24);//la manipulación de los píxeles ralentizaba mucho el programa, así carga menos el buffer
+  frameRate(24); //la manipulación de los píxeles ralentizaba mucho el programa, así carga menos el buffer
   background(220);
   updateTimer();
   mouthOpen = isMouthOpen();
@@ -138,6 +143,17 @@ function draw() {
       laughSound.loop();
       drawCrazyShapes();
       drawText(shouting, width - 120, height - 100, 200, 25, true);
+
+      // Llama al sistema de partículas
+      //Un montón de dientes que van apareciendo
+      if (isProgramRunning) {
+        for (let i = 0; i < 6; i++) {
+          let px = random(width);
+          let py = random(height);
+          particleSystem.addParticle(px, py, tooth);
+        }
+      }
+      particleSystem.run();
     } else {
       nocturnFilter();
       horrorSound.stop();
@@ -159,7 +175,7 @@ function stopAudio() {
 //Dibuja las formas en modo locura
 function drawCrazyShapes() {
   let thr = 2;
-  tint(110, 130, 180, 250);//le da tono uniforme a las imágenes para que no destaquen tanto
+  tint(110, 130, 180, 250); //le da tono uniforme a las imágenes para que no destaquen tanto
   image(
     phantomFace,
     random(20 - thr, 20 + thr),
@@ -181,7 +197,7 @@ function drawCrazyShapes() {
     120,
     120
   );
-  noTint();//quita el tono
+  noTint(); //quita el tono
 
   //esto detecta los ojos para pintar cruces rojas encima
   if (faces.length > 0) {
