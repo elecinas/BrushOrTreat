@@ -48,8 +48,8 @@ let lastTimer = -1;
 let lastInterval = 0;
 let lastPhraseChange = 0;
 let phraseInterval = 3; //3sg para cambiar frase
-let posTxtRandomX = 300;
-let posTxtRandomY = 300;
+let posTxtScreamX = 300;
+let posTxtScreamY = 300;
 
 let changePhrase = false;
 let phraseIndex = 0;
@@ -129,7 +129,7 @@ function draw() {
     horrorSound.loop();
     laughSound.loop();
     drawCrazyShapes();
-    drawText(shouting, width - 100, height - 100, 200, 25, true);
+    drawText(shouting, width - 120, height - 100, 200, 25, true);
   } else {
     nocturnFilter();
     horrorSound.stop();
@@ -141,7 +141,7 @@ function draw() {
 
 function drawCrazyShapes() {
   let thr = 2;
-  tint(10, 30, 80, 250);
+  tint(110, 130, 180, 250);
   image(
     phantomFace,
     random(20 - thr, 20 + thr),
@@ -215,7 +215,7 @@ function drawText(
   posY = 0,
   paragraphWidth = width,
   txtSize = 14,
-  randomPosition = false
+  isScreaming = false
 ) {
   let shakeX = 0;
   let shakeY = 0;
@@ -228,8 +228,6 @@ function drawText(
   if (timer % phraseInterval === 0 && timer !== lastPhraseChange) {
     lastPhraseChange = timer;
     phraseIndex < textArray.length - 1 ? phraseIndex++ : (phraseIndex = 0);
-    randomPosition && (posTxtRandomX = random(100, posX));
-    randomPosition && (posTxtRandomY = random(100, posY));
   }
   textFont(terrorFont);
   textSize(txtSize);
@@ -237,13 +235,13 @@ function drawText(
   noStroke();
   textAlign(CENTER, CENTER);
 
-  if (randomPosition) {
+  if (isScreaming) {
     imageMode(CENTER);
     let imgSize = random(txtSize * 10 - 3 + 100, txtSize * 10 + 3 + 100);
     image(
       phantomScream,
-      posTxtRandomX + shakeX,
-      posTxtRandomY + shakeY,
+      posX + shakeX,
+      posY + shakeY,
       imgSize,
       imgSize
     );
@@ -251,8 +249,8 @@ function drawText(
     textSize(random(txtSize - 3, txtSize + 3));
     text(
       textArray[phraseIndex],
-      posTxtRandomX + shakeX - imgSize / 4,
-      posTxtRandomY + shakeY,
+      posX + shakeX - imgSize / 4,
+      posY + shakeY,
       paragraphWidth
     );
   } else {
@@ -337,13 +335,6 @@ function isMouthOpen() {
       scaleX(lips.x + lips.width),
       scaleY(lips.y + lips.height)
     );
-    // let centerLip = createVector(scaleX(lips.centerX), scaleY(lips.centerY));
-    // noFill();
-    // stroke(0, 255, 0);
-
-    // ellipse(topLeftLip.x, topLeftLip.y, 10, 10);
-    // ellipse(bottomRightLip.x, bottomRightLip.y, 10, 10);
-    // ellipse(centerLip.x, centerLip.y, 10, 10);
 
     let lipDistance = dist(
       topLeftLip.x,
