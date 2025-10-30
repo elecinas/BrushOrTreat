@@ -1,9 +1,9 @@
 :root {
-  --brand: #2bb6a6; /* turquesa HealthySmile */
-  --brand-2: #ffd166; /* acento cálido */
-  --ink: #1e293b; /* gris azulado para texto */
-  --bg: #f6f9fb; /* fondo claro */
-  --card: #ffffff; /* tarjetas */
+  --brand: #2bb6a6;
+  --brand-2: #ffd166;
+  --ink: #1e293b;
+  --bg: #f6f9fb;
+  --card: #ffffff;
   --radius: 18px;
 }
 * {
@@ -68,19 +68,6 @@ main {
   margin: 24px auto;
   padding: 0 16px;
 }
-
-.layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  align-items: start;
-}
-
-/* @media (max-width: 900px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-} */
 
 .card {
   background: var(--card);
@@ -150,16 +137,7 @@ button {
   border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
-}
-
-button.secondary {
-  background: #eaf7f6;
-  color: #0f766e;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  width: 100%;
 }
 
 .footnote {
@@ -173,3 +151,23 @@ footer {
   color: #64748b;
   padding: 32px 16px;
 }
+
+#sketch-holder {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 4 / 3;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sketch-holder canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+}
+
