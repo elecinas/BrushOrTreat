@@ -1,11 +1,11 @@
-# 🦷 Laboratori HealthySmile — *Cepíllate o...*
+# Laboratori HealthySmile — *Cepíllate o...*
 
 **Laboratori HealthySmile** es una aplicación interactiva creada para fomentar el hábito del cepillado dental entre niños y niñas… ambientada para halloween.  
 A través de la cámara y reconocimiento facial con **ml5.js**, la app detecta si el usuario abre la boca y responde con luces, sonidos y frases que retan (o más bien amenazan) a seguir cepillándose los dientes.
 
 ---
 
-## 🚀 Características principales
+## Características principales
 
 - **Interacción con cámara en tiempo real** mediante `ml5.faceMesh`.
 - **Detección de apertura de boca** para activar efectos visuales y de sonido.
@@ -17,7 +17,7 @@ A través de la cámara y reconocimiento facial con **ml5.js**, la app detecta s
 
 ---
 
-## 🧩 Tecnologías utilizadas
+## Tecnologías utilizadas
 
 | Tecnología | Función |
 |-------------|----------|
@@ -30,7 +30,7 @@ A través de la cámara y reconocimiento facial con **ml5.js**, la app detecta s
 
 ---
 
-## ⚙️ Estructura del proyecto
+## Estructura del proyecto
 
 
 ├── index.html → interfaz principal
@@ -56,7 +56,7 @@ A través de la cámara y reconocimiento facial con **ml5.js**, la app detecta s
 
 ---
 
-## 🧠 Funcionamiento
+## Funcionamiento
 
 1. Al pulsar el botón **Iniciar**, se inicia el programa de detección facial y ambientación. 
 2. Cuando la boca **permanece cerrada**, la atmósfera es oscura y aparece una “presencia” que susurra amenazas.    
@@ -65,7 +65,7 @@ A través de la cámara y reconocimiento facial con **ml5.js**, la app detecta s
 
 ---
 
-## 🧱 Ejecución como aplicación de escritorio (Electron)
+## Ejecución como aplicación de escritorio (Electron)
 
 1. Instala dependencias:
    ```bash
@@ -78,9 +78,9 @@ A través de la cámara y reconocimiento facial con **ml5.js**, la app detecta s
 Se abrirá una ventana a 1080p con la aplicación lista para usar.
 
 
-## 📜 Créditos y recursos
+## Créditos y recursos
 
-### 🎵 Sonidos
+### Sonidos
 
 - **“Suspense”**, **“Scary”** y **“Demonic Laughter”** obtenidos de [Pixabay](https://pixabay.com/sound-effects/) bajo la **Pixabay License**.  
   Uso libre, incluso comercial, sin atribución obligatoria.  
@@ -93,7 +93,7 @@ Se abrirá una ventana a 1080p con la aplicación lista para usar.
 
 ---
 
-## 🧛 Créditos generales
+## Créditos generales
 
 Proyecto educativo desarrollado para el **Laboratori HealthySmile**.  
 Inspirado en el aprendizaje a través del juego, la interacción y el humor visual.  
@@ -105,7 +105,7 @@ Inspirado en el aprendizaje a través del juego, la interacción y el humor visu
 
 ---
 
-## 🪞 Nota sobre privacidad
+## Nota sobre privacidad
 
 Esta aplicación utiliza la cámara del dispositivo únicamente para **detectar la posición de la boca en tiempo real**.  
 No captura ni almacena imágenes, datos biométricos o personales.
