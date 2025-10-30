@@ -1,6 +1,13 @@
+//Variable que inicia el programa
+let isProgramRunning = false;
+
 // Elementos DOM
 const btnStart = document.getElementById("btn-start");
-const btnReset = document.getElementById("btn-reset");
+btnStart.onclick = () => {
+  isProgramRunning = !isProgramRunning;
+  btnStart.textContent = isProgramRunning ? "Parar" : "Iniciar";
+  stopAudio();
+}
 
 //ml5 variables
 let faceMesh;
@@ -123,19 +130,30 @@ function draw() {
 
   image(video, 0, 0, width, height);
 
-  if (mouthOpen) {
-    flickeringLightFilter();
+  if (isProgramRunning) {
+    if (mouthOpen) {
+      flickeringLightFilter();
+      tensionSound.stop();
+      horrorSound.loop();
+      laughSound.loop();
+      drawCrazyShapes();
+      drawText(shouting, width - 120, height - 100, 200, 25, true);
+    } else {
+      nocturnFilter();
+      horrorSound.stop();
+      laughSound.stop();
+      tensionSound.loop();
+      drawPhantom();
+    }
+  }
+}
+
+function stopAudio() {
+  if (isProgramRunning == false) {
+    //Apagar todos los sonidos cuando el programa se detiene
     tensionSound.stop();
-    horrorSound.loop();
-    laughSound.loop();
-    drawCrazyShapes();
-    drawText(shouting, width - 120, height - 100, 200, 25, true);
-  } else {
-    nocturnFilter();
     horrorSound.stop();
     laughSound.stop();
-    tensionSound.loop();
-    drawPhantom();
   }
 }
 
@@ -238,13 +256,7 @@ function drawText(
   if (isScreaming) {
     imageMode(CENTER);
     let imgSize = random(txtSize * 10 - 3 + 100, txtSize * 10 + 3 + 100);
-    image(
-      phantomScream,
-      posX + shakeX,
-      posY + shakeY,
-      imgSize,
-      imgSize
-    );
+    image(phantomScream, posX + shakeX, posY + shakeY, imgSize, imgSize);
     imageMode(CORNER);
     textSize(random(txtSize - 3, txtSize + 3));
     text(
