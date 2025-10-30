@@ -1,21 +1,33 @@
-# Node.js
+# 🧱 Node.js
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Dependencias de React/Vite/Next
-dist/
-build/
+# Electron build outputs
+/dist/
+/build/
+/out/
+/release/
+/*.asar
 
-# Archivos del sistema
+# OS & Editor files
 .DS_Store
 Thumbs.db
+.idea/
+.vscode/
+*.log
+*.tmp
 
-# Entornos
+# Environment & secrets
 .env
 .env.local
+.env.*.local
 
-# Logs
-*.log
-
-# IDEs y editores
-.vscode/
-.idea/
+# Backup or cache files
+*.bak
+*.swp
+*.swo
+.cache/
+.tmp/
