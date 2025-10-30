@@ -98,6 +98,7 @@ Se abrirá una ventana a 1080p con la aplicación lista para usar.
 Proyecto educativo desarrollado para el **Laboratori HealthySmile**.  
 Inspirado en el aprendizaje a través del juego, la interacción y el humor visual.  
 
+**Ilustraciones y diseño gráfico:** *Esther Lecina Sesén* 
 **Autor/a:** Esther Lecina Sesén  
 **Año:** 2025  
 **Licencia:** Uso educativo y no comercial.

@@ -119,11 +119,11 @@ function setup() {
   video.hide();
   faceMesh.detectStart(video, gotFaces);
 
-  tensionSound.setVolume(0.008);
+  tensionSound.setVolume(0.008);//el modo oscuro debe ser sutil
 }
 
 function draw() {
-  frameRate(24);
+  frameRate(24);//la manipulación de los píxeles ralentizaba mucho el programa, así carga menos el buffer
   background(220);
   updateTimer();
   mouthOpen = isMouthOpen();
@@ -156,10 +156,10 @@ function stopAudio() {
     laughSound.stop();
   }
 }
-
+//Dibuja las formas en modo locura
 function drawCrazyShapes() {
   let thr = 2;
-  tint(110, 130, 180, 250);
+  tint(110, 130, 180, 250);//le da tono uniforme a las imágenes para que no destaquen tanto
   image(
     phantomFace,
     random(20 - thr, 20 + thr),
@@ -181,8 +181,9 @@ function drawCrazyShapes() {
     120,
     120
   );
-  noTint();
+  noTint();//quita el tono
 
+  //esto detecta los ojos para pintar cruces rojas encima
   if (faces.length > 0) {
     const f = faces[0];
 
@@ -227,6 +228,8 @@ function drawCrazyShapes() {
   }
 }
 
+//pinta lo que dice el fantasma en los dos modos
+//oscuro y loco
 function drawText(
   textArray,
   posX = 0,
@@ -275,6 +278,8 @@ function drawText(
   }
 }
 
+//pinta el fantasma debajo del texto
+//por eso se llama a la función drawText() desde aqui
 function drawPhantom() {
   let size = map(noise(offSize), 0, 1, 305, 455);
   let posX = map(noise(offX), 0, 1, -5, width - size + 5);
@@ -291,6 +296,7 @@ function drawPhantom() {
   offColor += speed;
 }
 
+//contador para animar las frases
 function updateTimer() {
   if (millis() - lastInterval >= 1000) {
     lastTimer = timer;
@@ -299,6 +305,10 @@ function updateTimer() {
   }
 }
 
+//START IA SUPPORT//
+//Filtros, hechos con la ayuda de la IA
+//Prompt: "Dime cómo hacer filtros de terror con p5.js"
+//Editados después de su respuesta, solo se usaron 2 propuestas.
 function nocturnFilter() {
   loadPixels();
   for (let i = 0; i < pixels.length; i += 4) {
@@ -339,6 +349,10 @@ function flickeringLightFilter() {
   blendMode(BLEND);
 }
 
+//END IA SUPPORT//
+
+//detecta la apertura de la boca
+//devuelve valor booleano
 function isMouthOpen() {
   if (faces.length > 0 && faces[0].lips) {
     let lips = faces[0].lips;
@@ -361,10 +375,6 @@ function isMouthOpen() {
       return false;
     }
   }
-}
-
-function trigger(message) {
-  console.log(message, ":D");
 }
 
 function gotFaces(results) {
