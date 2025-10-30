@@ -12,7 +12,8 @@
   </head>
   <body>
     <header>
-      <div class="brand" aria-label="Cabecera HealthySmile">
+      <div class="header-content">
+        <div class="brand" aria-label="Cabecera HealthySmile">
         <svg
           viewBox="0 0 64 64"
           fill="none"
@@ -34,33 +35,23 @@
           <small>App para aprender a cepillarse los dientes</small>
         </div>
       </div>
+                  <div class="meta">
+              <button id="btn-start">Iniciar</button>
+            </div>
+
+      </div>
+      
     </header>
 
     <main>
       <div class="layout">
         <section class="card sketch-wrap" aria-labelledby="juego-title">
-          <h2 id="juego-title" style="margin: 8px 10px 14px">
-            ¡Limpia todos los dientes!
-          </h2>
           <div id="sketch-holder" class="card" aria-live="polite">
             <!-- aquí p5 inserta el canvas -->
           </div>
-          <div class="panel">
-            <div class="meta">
-              <button id="btn-start">Iniciar</button>
-            </div>
-            <p class="footnote">
-              En el Laboratori HealthySmile creemos que cepillarse los dientes
-              puede ser toda una experiencia. Cada movimiento del cepillo
-              cuenta, y cada diente tiene su brillo. Pulsa “Iniciar”, sigue el
-              ritmo… y descubre que cuidar tu sonrisa puede ser más divertido (y
-              sorprendente) de lo que imaginas.
-            </p>
-          </div>
+          
         </section>
       </div>
     </main>
-
-    <footer>© 2025 Laboratori HealthySmile — Proyecto educativo</footer>
   </body>
 </html>

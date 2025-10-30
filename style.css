@@ -38,12 +38,18 @@ header {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
   max-width: 1200px;
-  margin: 0 auto;
 }
 
 .brand svg {
@@ -76,7 +82,7 @@ main {
 }
 
 .sketch-wrap {
-  max-width: 800px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   padding: 16px;
@@ -131,13 +137,12 @@ canvas {
 
 button {
   border: 0;
-  background: var(--brand);
-  color: white;
+  background: #fff;
+  color: var(--brand);
   padding: 10px 14px;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
-  width: 100%;
 }
 
 .footnote {
@@ -155,7 +160,7 @@ footer {
 #sketch-holder {
   position: relative;
   width: 100%;
-  max-width: 720px;
+  max-width: 1200px;
   aspect-ratio: 4 / 3;
   margin: 0 auto;
   display: flex;

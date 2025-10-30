@@ -79,7 +79,7 @@ let phantomScream;
 // Crear y centrar canvas dentro de #sketch-holder
 function createResponsiveCanvas() {
   const holder = document.getElementById("sketch-holder");
-  const maxW = Math.min(holder.clientWidth, 720); // límite de ancho
+  const maxW = Math.min(holder.clientWidth, 1200); // límite de ancho
   const w = Math.max(320, maxW);
   const h = Math.round(w * 0.75); // relación 4:3  //relación 16:10 (0.62)
   const c = createCanvas(w, h);
@@ -355,9 +355,9 @@ function isMouthOpen() {
       bottomRightLip.y
     );
 
-    if (lipDistance > 90) {
+    if (lipDistance > width * 0.14) {
       return true;
-    } else if (lipDistance < 85) {
+    } else if (lipDistance < width * 0.13) {
       return false;
     }
   }
